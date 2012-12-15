@@ -26,9 +26,12 @@
   logp = log -p
   logp-my = log -p --author=mkrauskopf
   logpr = log -p --reverse
+
+  # See http://blog.kfish.org/2010/04/git-lola.html
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lolaa =  log --graph --decorate --pretty=format:\"%C(yellow)%h %Cred%cr %Cblue(%an)%C(white)%d%Creset %s\" --abbrev-commit --all
+
   revert-last = reset --soft HEAD^
   show-stash = stash show stash@{0} -p
   show-stash-1 = stash show stash@{1} -p
