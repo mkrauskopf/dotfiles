@@ -55,6 +55,8 @@
 
 [core]
   editor = vim
+  # .cvsignore is used also by other utilities like rsync
+  # Inspired by https://github.com/tpope/vim-pathogen (see FAQ section)
   excludesfile = ~/.cvsignore
 
 [credential]
