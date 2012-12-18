@@ -26,6 +26,7 @@
   logp = log -p
   logp-my = log -p --author=mkrauskopf
   logpr = log -p --reverse
+  logs = log --stat
 
   # See http://blog.kfish.org/2010/04/git-lola.html
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
