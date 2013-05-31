@@ -1,0 +1,25 @@
+Config { font = "-misc-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
+       , bgColor = "#002000"
+       , fgColor = "grey"
+       , border = NoBorder
+       , borderColor = "green"
+       , position = TopW L 88
+       , lowerOnStart = True
+       , commands = [ Run Weather "LKPR" ["-t"," <tempC>C","-L","4","-H","28","--normal","green","--high","red","--low","lightblue"] 18000
+                    , Run Cpu ["-t", "C:<total>", "-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Memory ["-t","M:<usedratio>%"] 10
+                    , Run Battery ["-t", "B:<left>", "-L","50","-H","75","--high","green","--normal","yellow", "--low", "red"] 10
+                    , Run Network "eth0" ["-L","0","-H","400","--normal","green","--high","red"] 10
+                    , Run Network "wlan2" ["-L","0","-H","400","--normal","green","--high","red"] 10
+                    , Run Swap ["-t", "S:<usedratio>%"] 10
+                    , Run Date "%a %b %_d %l:%M" "date" 10
+                    , Run StdinReader
+                    , Run Com "irssi-xmobar" [] "irssi" 10
+                    , Run Kbd [("cz", "CZ"), ("us", "US")]
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ <fc=#ee9a00>%kbd%</fc> | %cpu% | %memory% * %swap% | %wlan2%   <fc=#ee9a00>%date%</fc> | %LKPR% | <fc=#ee0000>%irssi%</fc>"
+       }
+
+
