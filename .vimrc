@@ -430,9 +430,6 @@ fun SetNightColorScheme()
 endf
 command SetNightColorScheme call SetNightColorScheme()
 
-" MiniBufferExplorer
-map <F11> :TMiniBufExplorer<CR>
-
 " Regenerates tags with ctags in the current file's directory
 function RegenerateTags()
   call confirm('Abstract method. Override "RegenerateTags()" for "'. &ft . '" filetype.')
@@ -578,6 +575,7 @@ Bundle 'pbrisbin/html-template-syntax.git'
 " - haskellmode
 
 "" Python
+Bundle 'jaredly/vim-debug'
 Bundle 'klen/python-mode'
 
 "" Clojure
@@ -603,7 +601,10 @@ Bundle 'taglist.vim'
 Bundle 'Align'
 Bundle 'ColorV'
 Bundle 'FuzzyFinder'
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" powerline produce a lot of issues on each redraw - try it later
+"Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
 Bundle 'Rykka/mathematic.vim.git'
 Bundle 'Shougo/vimproc.git'
 Bundle 'Stormherz/tablify.git'
@@ -773,6 +774,9 @@ let scion_quickfixes_always_open = 0
 " This makes the explorer much faster. See the issue for details:
 "   --> https://github.com/fholgado/minibufexpl.vim/issues/6
 let g:miniBufExplCheckDupeBufs = 0
+
+" Buffer explorer
+map <leader>bu :BufExplorer<CR>
 
 " ------ neocomplcache start ------
 " Disable AutoComplPop.
