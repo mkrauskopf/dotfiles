@@ -628,6 +628,7 @@ Bundle 'tpope/vim-fugitive.git'
 Bundle 'tpope/vim-repeat.git'
 Bundle 'tpope/vim-rsi.git'
 Bundle 'vcscommand.vim'
+Bundle 'xolox/vim-easytags.git'
 Bundle 'xolox/vim-misc.git'
 Bundle 'xolox/vim-session.git'
 
