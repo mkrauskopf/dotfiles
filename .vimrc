@@ -628,7 +628,7 @@ Bundle 'tpope/vim-fugitive.git'
 Bundle 'tpope/vim-repeat.git'
 Bundle 'tpope/vim-rsi.git'
 Bundle 'vcscommand.vim'
-Bundle 'xolox/vim-easytags.git'
+"Bundle 'xolox/vim-easytags.git' # MK: caused slowness in several extension "(HTML, bash, ...)
 Bundle 'xolox/vim-misc.git'
 Bundle 'xolox/vim-session.git'
 
@@ -844,6 +844,9 @@ map <Leader>gs :Gstatus<CR>
 " vim-session
 let g:session_autoload = 'no'
 
+" golden-ration
+"let g:golden_ratio_exclude_nonmodifiable = 1
+
 "*********************** END: Individual plugin configurations /*}}}*/
 
 "*********************** START: TESTING SECTION /*{{{*/
@@ -867,8 +870,8 @@ let g:session_autoload = 'no'
 
 " black background by default - must be trigered after colorscheme bundles are
 " loaded
-"SetNightColorScheme
-SetDayColorScheme
+SetNightColorScheme
+"SetDayColorScheme
 
 " vi: set fdm=marker:
 
