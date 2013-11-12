@@ -134,7 +134,9 @@ vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 " Spelling
 set spellfile=~/.vim/mk-dictionary.add
 
-set listchars+=extends:>,precedes:<
+" make tabs more visible
+set listchars+=tab:>-,extends:>,precedes:<
+
 "set keywordprg=pinfo
 "*********************** END: BASIC SETTING /*}}}*/
 
