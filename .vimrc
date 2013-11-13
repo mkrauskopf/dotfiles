@@ -736,6 +736,8 @@ let MRU_SubMenus = 0
 " FuzzyFinder
 " Ignore cabal-dev
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])(\.(hg|git|bzr)|cabal-dev|dist)($|[/\\])'
+" Menu width
+let g:fuf_maxMenuWidth = 160
 " Most Recently Used files
 nnoremap mru :FufMruFile<CR>
 let g:fuf_modesDisable = []
