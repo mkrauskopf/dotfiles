@@ -588,6 +588,9 @@ Bundle 'jpalardy/vim-slime.git'
 "" SQL
 Bundle 'SQLUtilities'
 
+"" JavaScript
+Bundle 'othree/javascript-libraries-syntax.vim'
+
 "" Other languages
 Bundle 'HTML.zip'
 Bundle 'LaTeX-Suite-aka-Vim-LaTeX.git'
@@ -607,6 +610,7 @@ Bundle 'FuzzyFinder'
 " powerline produce a lot of issues on each redraw - try it later
 "Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
+Bundle 'MarcWeber/vim-addon-local-vimrc.git'
 Bundle 'Rykka/mathematic.vim.git'
 Bundle 'Shougo/vimproc.git'
 Bundle 'Stormherz/tablify.git'
