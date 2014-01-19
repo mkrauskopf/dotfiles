@@ -590,6 +590,7 @@ Bundle 'SQLUtilities'
 
 "" JavaScript
 Bundle 'othree/javascript-libraries-syntax.vim'
+Bundle 'marijnh/tern_for_vim.git'
 
 "" Other languages
 Bundle 'HTML.zip'
@@ -851,9 +852,11 @@ map <Leader>gs :Gstatus<CR>
 
 " vim-session
 let g:session_autoload = 'no'
+let g:session_autosave = 'yes'
 
 " golden-ration
 "let g:golden_ratio_exclude_nonmodifiable = 1
+let g:golden_ratio_autocommand = 0
 
 "*********************** END: Individual plugin configurations /*}}}*/
 
