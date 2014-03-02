@@ -419,6 +419,11 @@ fun DumpBufferName()
 endf
 command DumpBufferName call DumpBufferName()
 
+fun StripLinksInHTML()
+  execute '%s/<[a href][^>]*>\(.*\)<\/a>/\1/g'
+endf
+command StripLinksInHTML call StripLinksInHTML()
+
 " Sets color scheme with light background suitable for sunny days.
 fun SetDayColorScheme()
   colorscheme mayansmoke
