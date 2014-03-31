@@ -393,18 +393,19 @@ map [34^ <C-S-F10>
 
 "*********************** END: GLOBAL KEY-MAPPING /*}}}*/
 
-"*********************** START: FILETYPE EVENTS /*{{{*/
+"*********************** START: Temporary directory setting /*{{{*/
 let tmpDir = $HOME . "/.vim/tmp"
 if !isdirectory(tmpDir)
   call mkdir(tmpDir, "p")
 endif
-"*********************** END: FILETYPE EVENTS /*}}}*/
+"*********************** END: Temporary directory setting /*}}}*/
 "
 "*********************** START: FILETYPE EVENTS /*{{{*/
 autocmd BufEnter [Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]* set noexpandtab
 " nicely opens pdf files (tip 1356)
 autocmd BufReadPre *.pdf set ro
 autocmd BufReadPost *.elm set ft=haskell
+autocmd BufReadPost *.gradle set ft=groovy
 autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk "%" - |fmt -csw78
 "autocmd FileType haskell LoadComponentScion
 "autocmd FileType haskell command! SetGHCTags
