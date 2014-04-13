@@ -421,7 +421,7 @@ endf
 command DumpBufferName call DumpBufferName()
 
 fun StripLinksInHTML()
-  execute '%s/<[a href][^>]*>\(.*\)<\/a>/\1/g'
+  execute '%s/<a href[^>]*>\([^>]*\)<\/a>/\1/g'
 endf
 command StripLinksInHTML call StripLinksInHTML()
 
