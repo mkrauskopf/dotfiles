@@ -24,7 +24,7 @@
   logday = log --since='1 day ago'
   logn = log --name-status
   logp = log -p
-  logp-my = log -p --author=mkrauskopf
+  logp-my = log -p --author=krauskopf
   logpr = log -p --reverse
   logs = log --stat
 
@@ -55,17 +55,20 @@
   ui = auto
 
 [merge]
-  tool = vimdiff
+  tool = gvimdiff
 
 [core]
   editor = vim
   # .cvsignore is used also by other utilities like rsync
   # Inspired by https://github.com/tpope/vim-pathogen (see FAQ section)
   excludesfile = ~/.cvsignore
+	autocrlf = input
 
 [credential]
   # Set the cache to timeout after 1 hour (setting is in seconds). This options
   # is useful only for HTTPS.
   # See: https://help.github.com/articles/set-up-git#password-caching
-  helper = cache --timeout=3600
+	helper = cache --timeout=21600 # 6 hours (6 * 3600)
 
+[http]
+	postBuffer = 524288000
