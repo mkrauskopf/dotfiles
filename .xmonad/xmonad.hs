@@ -37,9 +37,9 @@ scratchpads :: [NamedScratchpad]
 scratchpads =
   [ -- run in xterm, find it by title, use default floating window
     -- placement
-    NS "mate-terminal-quick" "mate-terminal -t mate-terminal-quick" (title =? "mate-terminal-quick") rightBottomFloating
-  , NS "top" "mate-terminal -e top -t top" (title =? "top") leftBottomFloating
-  , NS "iotop" "mate-terminal -e iotop -t iotop" (title =? "iotop") rightTopFloating
+    NS "rxvt-quick" "rxvt -sr -bg black -fg white -fn -*-fixed-medium-r-normal-*-12-*-*-*-*-*-iso8859-2 -fb -*-fixed-medium-r-normal-*-12-*-*-*-*-*-iso8859-2 --color11 orange -sl 2500 -title rxvt-quick" (title =? "rxvt-quick") rightBottomFloating
+  , NS "top" "gnome-terminal -e top -t top" (title =? "top") leftBottomFloating
+  , NS "iotop" "gnome-terminal -e iotop -t iotop" (title =? "iotop") rightTopFloating
   , NS "alarm-clock-applet" "alarm-clock-applet" (title =? "Alarms") leftTopFloating
 
     -- run stardict, find it by class name, place it in the floating window 1/6
@@ -96,7 +96,7 @@ main = do
 
 myConf xmproc = defaultConfig
         { borderWidth     = 3
-        , terminal        = "mate-terminal"
+        , terminal        = "gnome-terminal"
         , startupHook     = setWMName "LG3D"
         , manageHook      = namedScratchpadManageHook scratchpads <+> manageDocks <+> myManageHook <+> manageHook defaultConfig
         , handleEventHook = ewmhDesktopsEventHook
@@ -140,7 +140,7 @@ myConf xmproc = defaultConfig
 
         , ("M-S-w", windows copyToAll) -- stick and unstick the current window
         , ("M-r a", ns "alarm-clock-applet")
-        , ("M-r c", spawn "mate-calc")
+        , ("M-r c", spawn "gnome-calculator")
         , ("M-r e", runOrRaise "thunderbird" (className =? "Shredder"))
         , ("M-r k", runOrRaise "anki" (className =? "Anki"))
         , ("M-r m", ns "mydocssession")
@@ -155,13 +155,13 @@ myConf xmproc = defaultConfig
         , ("M-S-b", withFocused toggleBorder)
         , ("M-S-f", withFocused (sendMessage . maximizeRestore)) -- full size
         , ("M-S-g", gotoMenu)
-        , ("M-S-l", spawn "mate-screensaver-command --lock")
+        , ("M-S-l", spawn "cinnamon-screensaver-command --lock")
         , ("M-S-r", spawnSelected defaultGSConfig spawners)
         , ("M-S-s", sendMessage ToggleStruts)
         , ("M-S-t", doCenteredFloat)
 
         -- Others
-        , ("C-M-<Return>", ns "mate-terminal-quick")
+        , ("C-M-<Return>", ns "rxvt-quick")
         , ("C-M-<Space>", sendMessage (JumpToLayout "Maximize Full"))
         -- Keyboard stuff
         , ("<F12>", spawn "setxkbmap us; control-reset; xmodmap ~/.xmodmap")
@@ -181,13 +181,13 @@ myConf xmproc = defaultConfig
               , xK_aacute
               , xK_iacute
               ]
-      runMC = "mate-terminal -e mc"
+      runMC = "gnome-terminal -e mc"
       scrot opts = "sleep 0.2; scrot ~/tmp/screenshot.png " ++ opts -- ++ " && ~/bin/open-image ~/tmp/screenshot.png"
       spawners =
-        [ "mate-panel", "nautilus"
+        [ "gnome-panel", "caja"
         , "gksu synaptic"
-        , "mintupdate", "mate-control-center", "mate-keyboard-properties"
-        , "mate-volume-control"
+        , "mintupdate", "cinnamon-control-center"
+        , "mypaint-mk"
         ]
       ns = namedScratchpadAction scratchpads
 
