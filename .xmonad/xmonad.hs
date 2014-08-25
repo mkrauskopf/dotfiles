@@ -48,7 +48,7 @@ scratchpads =
   , NS "stardict" "stardict" (className =? "Stardict") rightBottomFloating
  ] where leftBottomFloating = customFloating $ W.RationalRect (1/25) (3/5) (1/3) (1/3)
          leftTopFloating = customFloating $ W.RationalRect (3/5) (1/25) (1/3) (1/3)
-         rightBottomFloating = customFloating $ W.RationalRect (3/5) (3/5) (1/3) (1/3)
+         rightBottomFloating = customFloating $ W.RationalRect (52/100) (52/100) (46/100) (46/100)
          rightTopFloating = customFloating $ W.RationalRect (3/5) (1/5) (1/3) (1/3)
 
 
