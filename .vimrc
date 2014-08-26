@@ -312,10 +312,10 @@ imap <Leader>rr <ESC><Leader>rr
 vmap <Leader>rr "ryG<Leader>rr
 
 " Run external shell in the directory of currently selected file
-nmap <Leader>sh :cd %:p:h<CR>:silent !mate-terminal &<CR>:cd -<CR>
+nmap <Leader>sh :cd %:p:h<CR>:silent !gnome-terminal &<CR>:cd -<CR>
 " Run Midnight Commander with current file's owning directory opened
-nmap <Leader>mc :silent !mate-terminal -e "mc %:p:h"<CR>
-vmap <Leader>mc y:call system("mate-terminal -e 'mc <C-r>"' &")<CR>
+nmap <Leader>mc :silent !gnome-terminal -e "mc %:p:h"<CR>
+vmap <Leader>mc y:call system("gnome-terminal -e 'mc <C-r>"' &")<CR>
 " Open or close taglist window
 nmap <Leader>l :TlistToggle<CR>
 
