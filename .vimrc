@@ -691,6 +691,7 @@ let NERDTreeWinSize=50
 let NERDTreeShowHidden=0
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos='right'
+let NERDTreeShowHidden=1
 
 " NERDCommenter
 imap <C-c> <plug>NERDCommenterInInsert
