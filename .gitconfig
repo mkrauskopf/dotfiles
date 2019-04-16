@@ -5,35 +5,41 @@
   interactive = auto
 
 [alias]
+  adda = add -A .
   b = branch
   ba = branch -a
   ci = commit
+  ci-obsolete = commit -m 'obsolete'
+  ci-todo = commit -m 'TODO'
+  ci-updated = commit -m 'updated'
   ciav = commit -a -v
   civ = commit -v
   co = checkout
   co-stash = checkout stash@{0} --
+  com = checkout master
   di = diff -w
   dic = diff -w --cached
   dir = diff # raw, no -w
-  log-my = log --author=mkrauskopf
-  log1 = log --oneline
-  log10 = log --oneline -10
-  log10a = log --oneline --pretty=format:'%h | %an | %s' -10
-  log1a = log --oneline --pretty=format:'%h | %an | %s'
-  log1d = log --pretty=format:'%h | %ad | %s [%an]' --date=short
-  logday = log --since='1 day ago'
-  logn = log --name-status
-  logp = log -p
-  logp-my = log -p --author=krauskopf
-  logpr = log -p --reverse
-  logs = log --stat
+  log-my = log --author=mkrauskopf --no-merges
+  log1 = log --oneline --no-merges
+  log10 = log --oneline -10 --no-merges
+  log10a = log --oneline --pretty=format:'%h | %an | %s' -10 --no-merges
+  log1a = log --oneline --pretty=format:'%h | %an | %s' --no-merges
+  log1d = log --pretty=format:'%h | %ad | %s [%an]' --date=short --no-merges
+  logday = log --since='1 day ago' --no-merges
+  logn = log --name-status --no-merges
+  logp = log -p --no-merges
+  logp-my = log -p --author=mkrauskopf --no-merges
+  logpr = log -p --reverse --no-merges
+  logprs = log -p --reverse -S --no-merges
 
   # See http://blog.kfish.org/2010/04/git-lola.html
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lolaa =  log --graph --decorate --pretty=format:\"%C(yellow)%h %Cred%cr %Cblue(%an)%C(white)%d%Creset %s\" --abbrev-commit --all
-
-  pur = pull --rebase
+  mm = merge origin/master
+  puff = pull --ff-only
+  purr = pull --rebase
   revert-last = reset --soft HEAD^
   show-stash = stash show stash@{0} -p
   show-stash-1 = stash show stash@{1} -p
@@ -56,20 +62,32 @@
   ui = auto
 
 [merge]
-  tool = gvimdiff
+  tool = vimdiff
 
 [core]
-  editor = vim
-  # .cvsignore is used also by other utilities like rsync
-  # Inspired by https://github.com/tpope/vim-pathogen (see FAQ section)
-  excludesfile = ~/.cvsignore
-	autocrlf = input
+  editor = gvim -f
+  excludesfile = /Users/martin/.gitignore_global
 
 [credential]
-  # Set the cache to timeout after 1 hour (setting is in seconds). This options
-  # is useful only for HTTPS.
-  # See: https://help.github.com/articles/set-up-git#password-caching
-	helper = cache --timeout=21600 # 6 hours (6 * 3600)
+  # See https://help.github.com/articles/caching-your-github-password-in-git/
+  helper = osxkeychain
 
-[http]
-	postBuffer = 524288000
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
+[mergetool "sourcetree"]
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+[filter "hawser"]
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
+[commit]
+  template = /Users/martin/.stCommitMsg
+[cola]
+  spellcheck = false
+[filter "lfs"]
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
