@@ -3,9 +3,6 @@
 "
 
 "*********************** START: BASIC SETTING /*{{{*/
-" override e.g. $VIM/vimrc
-" !!! be careful about this options, might make Vim behaves strangely
-"set all&
 " use Vim settings instead of Vi
 set nocompatible
 syntax on
@@ -105,8 +102,6 @@ set viminfo='50,\"500
 set history=2500
 " break line character
 set showbreak=\>\ 
-" detect plugins and provide intelligent indent for various filetypes
-filetype plugin indent on
 " When editing a file, always jump to the last cursor position
 au BufReadPost * if line("'\"") | exe "'\"" | endif
 "au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"z." | endif
@@ -213,6 +208,14 @@ omap <C-s> <ESC><C-s>
 vmap DP :diffput<CR>
 vmap DO :diffget<CR>
 
+" ==== tabs switching ====
+map <M-D-Right> :tabnext<CR>
+map <M-D-Left> :tabprev<CR>
+imap <M-D-Right> <Esc><M-D-Right>
+imap <M-D-Left> <Esc><M-D-Left>
+vmap <M-D-Right> <Esc><M-D-Right>
+vmap <M-D-Left> <Esc><M-D-Left>
+
 " ==== buffers switching ====
 nmap <c-p> :bprevious<CR>
 nmap <c-n> :bnext<CR>
@@ -278,8 +281,6 @@ vmap <Leader>so :sort u<CR>
 vmap <Leader>sO :sort iu<CR>
 nmap <Leader>so ggVG,so
 nmap <Leader>sO ggVG,so
-" Toggle NerdTree
-nmap <Leader>E :NERDTreeToggle<CR>
 " Translator keys
 if has("unix")
   " translating mapping
@@ -312,10 +313,12 @@ imap <Leader>rr <ESC><Leader>rr
 vmap <Leader>rr "ryG<Leader>rr
 
 " Run external shell in the directory of currently selected file
-nmap <Leader>sh :cd %:p:h<CR>:silent !gnome-terminal &<CR>:cd -<CR>
+"nmap <Leader>sh :cd %:p:h<CR>:silent !gnome-terminal &<CR>:cd -<CR>
+"nmap <Leader>sh :cd %:p:h<CR>:silent !mate-terminal &<CR>:cd -<CR>
+nmap <Leader>sh :!$HOME/bin/apple/iTermTab %:p:h<CR>
 " Run Midnight Commander with current file's owning directory opened
-nmap <Leader>mc :silent !gnome-terminal -e "mc %:p:h"<CR>
-vmap <Leader>mc y:call system("gnome-terminal -e 'mc <C-r>"' &")<CR>
+"nmap <Leader>mc :silent !gnome-terminal -e "mc %:p:h"<CR>
+"vmap <Leader>mc y:call system("gnome-terminal -e 'mc <C-r>"' &")<CR>
 " Open or close taglist window
 nmap <Leader>l :TlistToggle<CR>
 
@@ -325,10 +328,13 @@ nmap <F3> :silent exec "while !search( @/, \"W\") \| bnext \| 0 \| endwhile"<cr>
 vnoremap * y/<C-r>"<CR>
 
 " open in browser
-nmap <Leader>b yiW:call system("firefox '<C-r>"' &")<CR>
-vmap <Leader>b y:call system ("firefox '<C-r>"' &")<CR>
-vmap <Leader>go y:call system ("firefox 'http://www.google.com/search?hl=en&q=<C-r>"&aq=f&oq=&aqi=' &")<CR>
-vmap <Leader>gw y:call system ("firefox 'http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<C-r>"' &")<CR>
+nmap <Leader>b yiW:call system("open -a 'Google Chrome' '<C-r>"' &")<CR>
+vmap <Leader>b y:call system ("open -a 'Google Chrome' '<C-r>"' &")<CR>
+vmap <Leader>go y:call system ("open -a 'Google Chrome' 'http://www.google.com/search?hl=en&q=<C-r>"&aq=f&oq=&aqi=' &")<CR>
+vmap <Leader>gw y:call system ("open -a 'Google Chrome' 'http://en.wikipedia.org/w/index.php?title=Special%3ASearch&search=<C-r>"' &")<CR>
+nmap <Leader>bb :silent execute "!open " . expand("%:p")<CR>
+" open current file in browser
+nnoremap <Leader>br :exe ':silent !open %'<CR>
 
 " completion
 imap <C-f> <C-x><C-f>
@@ -338,8 +344,8 @@ nmap <Leader>CL :SetDayColorScheme<CR>
 nmap <Leader>CD :SetNightColorScheme<CR>
 
 " grepping
-vmap <Leader>gr <BS>:copen<CR>:vimgrep /<S-BS>/ **/*
-nmap <Leader>gr :copen<CR>:vimgrep // **/*<C-b><C-b><C-b><C-b><C-b><C-b>
+vmap <Leader>gr <BS>:Ag <S-BS>
+nmap <Leader>gr :Ag 
 
 " quick spell correction (ck == check)
 nmap <Leader>ck 1z=
@@ -406,8 +412,9 @@ autocmd BufEnter [Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]* set noexpandtab
 autocmd BufReadPre *.pdf set ro
 autocmd BufReadPost *.elm set ft=haskell
 autocmd BufReadPost *.gradle set ft=groovy
+autocmd BufReadPost *.scala set ft=scala
+autocmd BufReadPost *.sbt set ft=scala
 autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk "%" - |fmt -csw78
-"autocmd FileType haskell LoadComponentScion
 "autocmd FileType haskell command! SetGHCTags
     "\ setlocal tags+=/space/haskell/sources/packages-base/tags
 "*********************** END: FILETYPE EVENTS /*}}}*/
@@ -552,6 +559,7 @@ endfunction "}}}
 
 " command for invoking "git-cola" for a repository of the current file
 command GitCola silent exe "!git-cola -r " . expand("%:p:h") " &"
+command SourceTree silent exe "!open -a 'SourceTree' " . expand("%:p:h") " &"
 
 "set foldmethod=marker
 "set foldexpr=getline(v:lnum)=~'^\\s*$'&&getline(v:lnum+1)=~'\\S'?'<1':1
@@ -559,97 +567,123 @@ command GitCola silent exe "!git-cola -r " . expand("%:p:h") " &"
 "*********************** END: FUNCTIONS /*}}}*/
 
 "*********************** START: Individual plugin configurations /*{{{*/
-" Pathogen
-call pathogen#infect()
-
+" see second comment by gmarik: https://github.com/VundleVim/Vundle.vim/issues/16
+filetype off
 " Vundle {{{
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
- " let Vundle manage Vundle. Required!
-Bundle 'gmarik/vundle.git'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" let Vundle manage Vundle. Required!
+Plugin 'gmarik/Vundle.vim'
+
+" fzf
+set rtp+=/usr/local/opt/fzf
+
 " generic libraries
-Bundle 'L9'
+Plugin 'L9'
 
 """" languages support start {{{
+" Common for all languages
+Plugin 'scrooloose/syntastic'
+
+" Frontend
+Plugin 'leafgarland/typescript-vim'
+
+" Scala
+"Plugin 'derekwyatt/vim-scala'
+
 "" Haskell
-Bundle 'dag/vim2hs.git'
-Bundle 'eagletmt/ghcmod-vim.git'
-Bundle 'feuerbach/vim-hs-module-name.git'
-Bundle 'hlint'
-Bundle 'kana/vim-filetype-haskell.git'
-Bundle 'ujihisa/neco-ghc.git'
-Bundle 'pbrisbin/html-template-syntax.git'
+Plugin 'neovimhaskell/haskell-vim'
+Plugin 'enomsg/vim-haskellConcealPlus'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'Twinside/vim-hoogle'
+Plugin 'lukerandall/haskellmode-vim'
+"Plugin 'dag/vim2hs.git'
+"Plugin 'feuerbach/vim-hs-module-name.git'
+"Plugin 'hlint'
+"Plugin 'kana/vim-filetype-haskell.git'
+"Plugin 'pbrisbin/html-template-syntax.git'
 " Non-Vundle compatible
 " - haskellmode
 
 "" Python
-Bundle 'jaredly/vim-debug'
-Bundle 'klen/python-mode'
+"Plugin 'klen/python-mode'
 
 "" Clojure
-Bundle 'VimClojure'
-Bundle 'slimv.vim'
-Bundle 'jpalardy/vim-slime.git'
+"Plugin 'VimClojure'
+"Plugin 'slimv.vim'
+"Plugin 'jpalardy/vim-slime.git'
 
 "" SQL
-Bundle 'SQLUtilities'
-
-"" JavaScript
-Bundle 'othree/javascript-libraries-syntax.vim'
-Bundle 'marijnh/tern_for_vim.git'
+"Plugin 'SQLUtilities'
 
 "" Other languages
-Bundle 'HTML.zip'
-Bundle 'LaTeX-Suite-aka-Vim-LaTeX.git'
-Bundle 'Vim-R-plugin'
-Bundle 'bash-support.vim'
+"Plugin 'HTML.zip'
+"Plugin 'LaTeX-Suite-aka-Vim-LaTeX.git'
+"Plugin 'Vim-R-plugin'
+"Plugin 'bash-support.vim'
 "" languages generic
-Bundle 'majutsushi/tagbar.git'
-Bundle 'bitc/lushtags.git'
-Bundle 'taglist.vim'
+"Plugin 'majutsushi/tagbar.git'
+"Plugin 'bitc/lushtags.git'
+"Plugin 'taglist.vim'
 """" languages support end }}}
 
+"" Version Control System
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive.git'
+Plugin 'vcscommand.vim'
+
 " miscellaneous
-Bundle 'Align'
-Bundle 'ColorV'
-Bundle 'FuzzyFinder'
+Plugin 'junegunn/fzf.vim'
+Plugin 'Shougo/vimproc.git'
+Plugin 'Switch'
+Plugin 'Tabular'
+Plugin 'The-NERD-Commenter'
+Plugin 'rking/ag.vim.git'
 
-" powerline produce a lot of issues on each redraw - try it later
-"Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
 
-Bundle 'MarcWeber/vim-addon-local-vimrc.git'
-Bundle 'Rykka/mathematic.vim.git'
-Bundle 'Shougo/vimproc.git'
-Bundle 'Stormherz/tablify.git'
-Bundle 'Switch'
-Bundle 'Syntastic'
-Bundle 'Tabular'
-Bundle 'The-NERD-Commenter'
-Bundle 'UltiSnips'
-Bundle 'bufexplorer.zip'
-Bundle 'ervandew/supertab.git'
-Bundle 'fontzoom.vim'
-Bundle 'neocomplcache'
-Bundle 'operator-camelize'
-Bundle 'operator-user'
-Bundle 'reload.vim'
-Bundle 'roman/golden-ratio.git'
-Bundle 'scrooloose/nerdcommenter.git'
-Bundle 'scrooloose/nerdtree.git'
-Bundle 'surround.vim'
-Bundle 'tpope/vim-fugitive.git'
-Bundle 'tpope/vim-repeat.git'
-Bundle 'tpope/vim-rsi.git'
-Bundle 'vcscommand.vim'
-"Bundle 'xolox/vim-easytags.git' # MK: caused slowness in several extension "(HTML, bash, ...)
-Bundle 'xolox/vim-misc.git'
-Bundle 'xolox/vim-session.git'
+Plugin 'bling/vim-airline'
+Plugin 'fontzoom.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'myusuf3/numbers.vim'
+Plugin 'neocomplcache'
+Plugin 'powerline/powerline'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'surround.vim'
+Plugin 'tpope/vim-repeat.git'
+Plugin 'tpope/vim-rsi.git'
+Plugin 'xolox/vim-misc.git'
+Plugin 'xolox/vim-session.git'
+
+" archive
+"Plugin 'Align'
+"Plugin 'ColorV'
+"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Plugin 'Rykka/mathematic.vim.git'
+"Plugin 'Stormherz/tablify.git'
+"Plugin 'bufexplorer.zip'
+"Plugin 'ervandew/supertab.git'
+"Plugin 'operator-camelize'
+"Plugin 'operator-user'
+"Plugin 'reload.vim'
+"Plugin 'roman/golden-ratio.git'
+"Plugin 'scrooloose/nerdcommenter.git'
+
+" My plugin as last one
+Plugin 'zzz_mk', {'pinned': 1}
 
 " colorschemes
-Bundle 'nanotech/jellybeans.vim.git'
-Bundle 'mayansmoke'
-" }}}
+Plugin 'nanotech/jellybeans.vim.git'
+Plugin 'mayansmoke'
 
+call vundle#end()
+" }}}
+" detect plugins and provide intelligent indent for various filetypes
+filetype plugin indent on
 
 " HTML plugin
 " generate lowercase html tags
@@ -674,11 +708,13 @@ let CVSCommandDiffOpt='u'
 
 """""" Haskell """"""
 " configure browser for haskell-mode (haskell_doc.vim)
-let haddock_browser = "/usr/bin/firefox"
+"let haddock_browser = "open -a 'Google Chrome'"
+let g:haddock_browser = "open"
+let g:haddock_browser_callformat = '%s %s'
 " configure Haddock documentation for haskell-mode (haskell_doc.vim)
-let haddock_docdir="/space/haskell/0_doc/ghc-latest/libraries"
+let g:haddock_docdir="/usr/local/share/doc/ghc/html/"
 " index file for Haskell documentation
-let haddock_indexfiledir = expand('~/.vim/tmp/')
+let g:haddock_indexfiledir = expand('~/.vim/tmp/')
 """""""""""""""""""""
 
 " bash-support
@@ -687,11 +723,14 @@ let BASH_Ctrl_j = "off"
 
 
 " NERDTree
+" Toggle NerdTree
+nmap <Leader>E :NERDTreeToggle<CR>
+nmap <Leader>nf :NERDTreeFind<CR>
+
 let NERDTreeWinSize=50
-let NERDTreeShowHidden=0
+let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos='right'
-let NERDTreeShowHidden=1
 
 " NERDCommenter
 imap <C-c> <plug>NERDCommenterInInsert
@@ -745,55 +784,13 @@ let MRU_File = expand("$HOME/.vim/tmp/mru_files.txt")
 let MRU_Max_Entries = 100
 let MRU_SubMenus = 0
 
-" FuzzyFinder
-" Ignore cabal-dev
-let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])(\.(hg|git|bzr)|cabal-dev|dist)($|[/\\])'
-" Menu width
-let g:fuf_maxMenuWidth = 160
-" Most Recently Used files
-nnoremap mru :FufMruFile<CR>
-let g:fuf_modesDisable = []
-"nnoremap <Leader>e :FuFFile <C-r>=fnamemodify(getcwd(), ':p')<CR><CR>
-nnoremap <Leader>e :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <Leader>ff :FufFile<CR>
-nnoremap <Leader>, :FufBuffer<CR>
-nnoremap <Leader>. :FufTag<CR>
-nnoremap <C-h> :FufHelp<CR>
-
-let fuf_abbrevMap  = {
-      \   '\C^GVR' : [
-      \     '$VIMRUNTIME/**/',
-      \     '~/.vim/**/',
-      \     '$VIM/.vim/**/',
-      \     '$VIM/vimfiles/**/',
-      \   ],
-      \   '\C^VR' : [
-      \     '~/.vim/**/',
-      \   ],
-      \   '\C^ZZ' : [
-      \     '~/.vim/**/zz_',
-      \   ],
-      \ }
-
-" Scion
-set runtimepath+=/space/haskell/sources/scion-backend-vim/
-"source /home/emdot/.cabal/share/scion-0.1.0.2/vim_runtime_path/plugin/haskell_scion.vim
-let scion_connection_setting = ['scion', "/home/emdot/.cabal/bin/scion-server"]
-let scion_quickfixes_always_open = 0
-"set runtimepath+=/space/haskell/sources/scion.mkrauskopf/vim_runtime_path/
-"source /space/haskell/sources/scion.mkrauskopf/vim_runtime_path/plugin/haskell_scion.vim
-
-" xptemplate
-" I'm using autoclose.vim instead which does better job for me.
-"let g:xptemplate_brace_complete = 0
-
-" MiniBufferExplorer
-" This makes the explorer much faster. See the issue for details:
-"   --> https://github.com/fholgado/minibufexpl.vim/issues/6
-let g:miniBufExplCheckDupeBufs = 0
-
-" Buffer explorer
-map <leader>bu :BufExplorer<CR>
+" FZF
+nnoremap <Leader>ee :GFiles<CR>
+nnoremap <Leader>eg :Files<CR>
+nnoremap <Leader>, :Buffers<CR>
+nnoremap <Leader>. :Tags<CR>
+nnoremap <C-h> :Helptags<CR>
+nnoremap mru :History<CR>
 
 " ------ neocomplcache start ------
 " Disable AutoComplPop.
@@ -809,7 +806,7 @@ let g:neocomplcache_enable_underbar_completion = 1
 "   " Set minimum syntax keyword length.
 "   let g:neocomplcache_min_syntax_length = 3
 "let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-"   
+"
 " Define keyword.
 if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
@@ -835,17 +832,24 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 " SuperTab plugin
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
-let g:UltiSnipsExpandTrigger="<C-Bslash>"
+"let g:UltiSnipsExpandTrigger="<C-Bslash>"
 let g:UltiSnipsSnippetsDir="~/.vim/bundle/zzz_mk/UltiSnips"
-"let g:UltiSnipsSnippetsDir="~/.vim/mk-ultisnips"
 
 " VimClojure
 let vimclojure#SetupKeyMapRunTests = 0
 
 " Syntastic
-let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': [],
-                           \ 'passive_filetypes': [] }
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" disable for certain file types
+let g:syntastic_mode_map = { 'passive_filetypes': ['java'] }
+
 
 " tagbar
 nmap <F8> :TagbarToggle<CR>
@@ -861,35 +865,29 @@ map <Leader>gs :Gstatus<CR>
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 
-" golden-ration
-"let g:golden_ratio_exclude_nonmodifiable = 1
-let g:golden_ratio_autocommand = 0
-
 "*********************** END: Individual plugin configurations /*}}}*/
-
-"*********************** START: TESTING SECTION /*{{{*/
-"if &term =~ "xterm"
-"    if has("terminfo")
-"        set t_Co=8
-"        set t_Sf=[3%p1%dm
-"        set t_Sb=[4%p1%dm
-"    else
-"        set t_Co=8
-"        set t_Sf=[3%dm
-"        set t_Sb=[4%dm
-"    endif
-"endif
-" END
-
-"autocmd FileType sql syntax sync minlines=1000
-"autocmd FileType jsp syntax sync minlines=1000
-"
-"*********************** END: TESTING SECTION /*}}}*/
 
 " black background by default - must be trigered after colorscheme bundles are
 " loaded
 SetNightColorScheme
 "SetDayColorScheme
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+"Search for the word under cursor
+nnoremap K :silent grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+vnoremap K y:silent grep! "\b<C-R>"\b"<CR>:cw<CR>
+
 
 " vi: set fdm=marker:
 
