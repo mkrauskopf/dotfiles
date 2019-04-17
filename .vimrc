@@ -788,8 +788,9 @@ let MRU_Max_Entries = 100
 let MRU_SubMenus = 0
 
 " FZF
-nnoremap <Leader>ee :GFiles<CR>
-nnoremap <Leader>eg :Files<CR>
+nnoremap <Leader>ee :Files<CR>
+nnoremap <Leader>eh :Files ~<CR>
+nnoremap <Leader>eg :GFiles<CR>
 nnoremap <Leader>, :Buffers<CR>
 nnoremap <Leader>. :Tags<CR>
 nnoremap <C-h> :Helptags<CR>
