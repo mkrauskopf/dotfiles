@@ -136,7 +136,7 @@ source $NVM_SH --no-use
 [[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 
 # See https://github.com/rbenv/rbenv
-which rbenv && eval "$(rbenv init -)"
+which rbenv > /dev/null && eval "$(rbenv init -)"
 
 # See https://github.com/nvbn/thefuck
 eval $(thefuck --alias)
