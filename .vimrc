@@ -588,6 +588,9 @@ Plugin 'scrooloose/syntastic'
 " Frontend
 Plugin 'leafgarland/typescript-vim'
 
+" Reason
+Plugin 'reasonml-editor/vim-reason-plus'
+
 " Scala
 "Plugin 'derekwyatt/vim-scala'
 
