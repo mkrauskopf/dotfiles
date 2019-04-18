@@ -269,13 +269,6 @@ vmap Q <ESC>Q
 map <F2> ]`
 map <S-F2> [`
 nmap <silent> <C-q>h :nohlsearch<cr>
-" Edit another file in the same directory as the current file uses expression
-" to extract path from current file's path (thanks Douglas Potts)
-if has("unix")
-  nmap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-else
-  nmap <Leader>e :e <C-R>=expand("%:p:h") . "\\" <CR>
-endif
 " Sort and uniq visual block
 vmap <Leader>so :sort u<CR>
 vmap <Leader>sO :sort iu<CR>
@@ -726,10 +719,6 @@ let BASH_Ctrl_j = "off"
 
 
 " NERDTree
-" Toggle NerdTree
-nmap <Leader>E :NERDTreeToggle<CR>
-nmap <Leader>nf :NERDTreeFind<CR>
-
 let NERDTreeWinSize=50
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
@@ -787,6 +776,16 @@ let MRU_File = expand("$HOME/.vim/tmp/mru_files.txt")
 let MRU_Max_Entries = 100
 let MRU_SubMenus = 0
 
+" **** Editing files {{{
+" Edit another file in the same directory as the current file uses expression
+" to extract path from current file's path (thanks Douglas Potts)
+let sep = has("unix") ? "/" : "\\"
+nmap <Leader>en :e <C-R>=expand("%:p:h") . sep <CR>
+
+" NERDTree
+nmap <Leader>E :NERDTreeToggle<CR>
+nmap <Leader>nf :NERDTreeFind<CR>
+
 " FZF
 nnoremap <Leader>ee :Files<CR>
 nnoremap <Leader>eh :Files ~<CR>
@@ -795,6 +794,7 @@ nnoremap <Leader>, :Buffers<CR>
 nnoremap <Leader>. :Tags<CR>
 nnoremap <C-h> :Helptags<CR>
 nnoremap mru :History<CR>
+" **** }}}
 
 " ------ neocomplcache start ------
 " Disable AutoComplPop.
