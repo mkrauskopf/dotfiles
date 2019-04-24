@@ -85,8 +85,6 @@
   clean = git hawser clean %f
   smudge = git hawser smudge %f
   required = true
-[commit]
-  template = /Users/martin/.stCommitMsg
 [cola]
   spellcheck = false
 [filter "lfs"]
