@@ -23,6 +23,7 @@
   di = diff -w
   dic = diff -w --cached
   dir = diff # raw, no -w
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches
   log-my = log --author=mkrauskopf --no-merges
   log1 = log --oneline --no-merges
   log10 = log --oneline -10 --no-merges
