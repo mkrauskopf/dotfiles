@@ -15,6 +15,7 @@
   ci-obsolete = commit -m 'obsolete'
   ci-todo = commit -m 'TODO'
   ci-updated = commit -m 'updated'
+  cia = commit -a
   ciav = commit -a -v
   civ = commit -v
   co = checkout
