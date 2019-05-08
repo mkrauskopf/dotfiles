@@ -636,6 +636,7 @@ Plugin 'Switch'
 Plugin 'Tabular'
 Plugin 'The-NERD-Commenter'
 Plugin 'rking/ag.vim.git'
+Plugin 'bogado/file-line'
 
 " Track the engine.
 Plugin 'SirVer/ultisnips'
