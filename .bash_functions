@@ -225,36 +225,6 @@ function gcat {
     [ -z "$res" ] || cat "$res"
 }
 
-function nblocate() {
-    locate_place="\/space-hdd\/java\/netbeans-hg\/main\/.*"
-    _do_locate $*
-}
-
-function ijclocate() {
-    locate_place="\/space\/java\/ijc.git\/.*"
-    _do_locate $*
-}
-
-function _do_locate() {
-    local nb_open=false
-    while getopts "o" optname $@; do
-        case "$optname" in
-            "o")
-                local nb_open=true
-                shift
-                ;;
-        esac
-    done
-
-    res=`locate -i -r $locate_place$1 | grep -v \\\\.hg | grep -v \\\\.svn`
-    echo "$res"
-    if [ "$nb_open" = "true" ]; then
-        _open_files_in_nb $res
-    fi
-    unset OPTSTRING
-    unset OPTIND
-}
-
 function _open_files_in_nb() {
     read -p "Do you want to open the files in NetBeans? (y/n): " result
     if [ "$result" == 'y' ]; then
