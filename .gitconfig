@@ -24,19 +24,20 @@
   di = diff -w
   dic = diff -w --cached
   dir = diff # raw, no -w
-  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches
-  log-my = log --author=mkrauskopf --no-merges
-  log1 = log --oneline --no-merges
-  log10 = log --oneline -10 --no-merges
-  log10a = log --oneline --pretty=format:'%h | %an | %s' -10 --no-merges
-  log1a = log --oneline --pretty=format:'%h | %an | %s' --no-merges
-  log1d = log --pretty=format:'%h | %ad | %s [%an]' --date=short --no-merges
-  logday = log --since='1 day ago' --no-merges
-  logn = log --name-status --no-merges
-  logp = log -p --no-merges
-  logp-my = log -p --author=mkrauskopf --no-merges
-  logpr = log -p --reverse --no-merges
-  logprs = log -p --reverse -S --no-merges
+  l = log
+  lg = log --color --graph --abbrev-commit --branches
+  lmy = log --author=mkrausko --no-merges
+  l1 = log --oneline --no-merges --relative-date --pretty=format:'%C(auto,yellow)%h %C(auto,blue)%>(12,trunc)%ad %C(auto,green)%<(10,trunc)%ae%C(auto,reset) %s%C(auto,red)% gD% D'
+  l10 = log --oneline -10 --no-merges
+  l10a = log --oneline -10 --no-merges
+  l1a = log --oneline --pretty=format:'%h | %an | %s' --no-merges
+  l1d = log --pretty=format:'%h | %ad | %s [%an]' --date=short --no-merges
+  lday = log --since='1 day ago' --no-merges
+  ln = log --name-status --no-merges
+  lp = log -p --no-merges
+  lpmy = log -p --author=mkrausko --no-merges
+  lpr = log -p --reverse --no-merges
+  lprs = log -p --reverse -S --no-merges
 
   # See http://blog.kfish.org/2010/04/git-lola.html
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -72,17 +73,18 @@
 [core]
   editor = gvim -f
   excludesfile = /Users/martin/.gitignore_global
+  autocrlf = input
 
 [credential]
   # See https://help.github.com/articles/caching-your-github-password-in-git/
   helper = osxkeychain
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -94,3 +96,5 @@
   process = git-lfs filter-process
   required = true
   clean = git-lfs clean -- %f
+[diff]
+  noprefix = true
