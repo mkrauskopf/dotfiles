@@ -13,6 +13,8 @@ export HISTSIZE=5000
 # avoid duplicates..
 export HISTCONTROL="ignoredups:erasedups:ignoreboth"
 
+source ~/.git-prompt.sh
+
 LESSHISTSIZE=200
 # Make 'less' more friendly for non-text input files, see lesspipe(1).
 which lesspipe1.sh > /dev/null && eval "$(lesspipe.sh)"
